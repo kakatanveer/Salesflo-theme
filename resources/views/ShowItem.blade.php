@@ -33,6 +33,7 @@
           <th>Plates</th>
           <th>A-H</th>
           <th>Limit</th>
+          <th>Quantity</th>
           <th>Buying Price</th>
           <th>Selling Price</th>
           <th>Action</th>
@@ -46,6 +47,7 @@
                   <td>{{ $item->plates }}</td>
                   <td>{{ $item->ah }}</td>
                   <td>{{ $item->limit }}</td>
+                  <td>{{ $item->stock_quantity }}</td>
                   <td>{{ $item->buying_price }}</td>
                   <td>{{ $item->selling_price }}</td>
                   <td> <button class="edit-btn btn btn-outline-primary btn-sm" data-id="{{ $item->id }}"> Edit </button></td>
@@ -101,19 +103,24 @@
                             <input type="number" name="selling_price" class="form-control" id="selling_price" required>
                             <div class="invalid-feedback">Please, enter Selling Price!</div>
                         </div>
+                        <div class="col-6">
+                            <label for="stock_quantity" class="form-label"> Quantity </label>
+                            <input type="number" name="stock_quantity" class="form-control" id="stock_quantity" required>
+                            <div class="invalid-feedback">Please, enter stock_quantity!</div>
+                        </div>
                         <div class="col-12" id="div-save-button">
                           <button type="submit" class="btn btn-primary" id="SaveItemButton" style="width:200px">Save</button>
                           <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
-          
+
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.edit-btn').click(function(e) {
@@ -133,7 +140,7 @@
                     $('#selling_price').val(response.selling_price);
                     $('#itemId').val(itemId);
                     $('#ItemModal').modal('show');
-                    
+
                     // Change the form action to the update route
                     $('#SaveItemForm').attr('action', baseUrl+'/UpdateItems/' + itemId);
                     // $('#SaveItemForm').attr('method', 'POST');

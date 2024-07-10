@@ -29,6 +29,9 @@
 
         <!-- Template Main CSS File -->
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
     </head>
     <body>
         <!-- ======= Sidebar ======= -->
@@ -54,9 +57,17 @@
                     </a>
                 </li>
 
+                 <!-- End Sellings Nav -->
+                 <li class="nav-item">
+                    <a class="nav-link " href="{{ route('sells.index')}}">
+                        <i class="bi bi-grid"></i>
+                        <span>Sell</span>
+                    </a>
+                </li>
+
                 <!-- End Credit Nav -->
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('ShowCredit')}}">
+                    <a class="nav-link " href="{{ route('AddCredit')}}">
                         <i class="bi bi-grid"></i>
                         <span>Credit</span>
                     </a>
@@ -70,13 +81,7 @@
                     </a>
                 </li>
 
-                <!-- End Sellings Nav -->
-                <li class="nav-item">
-                    <a class="nav-link " href="{{ route('sells.index')}}">
-                        <i class="bi bi-grid"></i>
-                        <span>Sell</span>
-                    </a>
-                </li>
+
 
                 <!-- End Reports Nav -->
                 <li class="nav-item">
@@ -85,8 +90,8 @@
                     </a>
                     <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="charts-chartjs.html">
-                        <i class="bi bi-circle"></i><span>Chart.js</span>
+                        <a href="{{ route('generate-stock-report') }}" id="availableStockLink">
+                            <i class="bi bi-circle"></i><span> Available Stock </span>
                         </a>
                     </li>
                     <li>
@@ -146,5 +151,7 @@
 
             <!-- Template Main JS File -->
             <script src="{{ asset('assets/js/main.js') }}"></script>
+
+
     </body>
 </html>

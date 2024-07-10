@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('customer_name');
-            $table->integer('contact_number');
+            $table->string('contact_number');
             $table->string('address');
             $table->unsignedBigInteger('added_by');
             $table->timestamp('added_on')->useCurrent();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
         });
 
-        
+
     }
 
     /**

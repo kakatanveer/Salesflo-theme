@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -34,18 +35,18 @@ class ItemController extends Controller
 
     public function saveItem(Request $request)
     {
-       // Validation
-       $validator = Validator::make($request->all(), [
+        // Validation
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:items',
             'plates' => 'required|integer',
             'ah' => 'required|integer',
             'limit' => 'required|integer',
+            'stock_quantity' => 'required|integer',
             'buying_price' => 'required|numeric',
             'selling_price' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
-            // dd("here");
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -55,16 +56,17 @@ class ItemController extends Controller
         $item->plates = $request->input('plates');
         $item->ah = $request->input('ah');
         $item->limit = $request->input('limit');
+        $item->stock_quantity = $request->input('stock_quantity'); // Corrected line
         $item->buying_price = $request->input('buying_price');
         $item->selling_price = $request->input('selling_price');
         $item->added_by = auth()->user()->id; // Assuming the user is authenticated
         $item->added_on = now();
-
         $item->save();
 
         // Redirect with success message
         return redirect()->route('ShowItems')->with('success', 'Item added successfully!');
     }
+
 
 
     public function editItem($id)
@@ -94,5 +96,5 @@ class ItemController extends Controller
             return redirect()->route('ShowItems')->with('success', 'Item not found!');
         }
     }
-   
+
 }

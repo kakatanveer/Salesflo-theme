@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('plates');
             $table->integer('ah');
             $table->integer('limit');
+            $table->integer('stock_quantity');
             $table->decimal('buying_price', 8, 2);
             $table->decimal('selling_price', 8, 2);
             $table->unsignedBigInteger('added_by');

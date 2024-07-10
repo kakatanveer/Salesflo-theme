@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('credits', function (Blueprint $table) {
             $table->id();
+            $table->integer('customer_id');
+            $table->integer('advance_payment');
             $table->timestamps();
         });
     }

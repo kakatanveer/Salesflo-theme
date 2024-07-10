@@ -26,27 +26,34 @@
   </h5>
 
   <!-- Table with stripped rows -->
+  @if ($customers->isEmpty())
+  <p>No customers found.</p>
+@else
   <table class="table datatable">
       <thead>
         <tr>
           <th>Full Name</th>
           <th>Contact Number </th>
           <th>Address</th>
+          <th>Credit</th>
           <th>Action</th>
           <!-- Add more headers as needed -->
         </tr>
       </thead>
       <tbody>
-          @foreach ($CustomerData as $CustomerData)
+
+          @foreach ($customers as $customers)
               <tr>
-                  <td>{{ $CustomerData->customer_name }}</td>
-                  <td>{{ $CustomerData->contact_number }}</td>
-                  <td>{{ $CustomerData->address }}</td>
-                  <td> <button class="edit-btn btn btn-outline-primary btn-sm" data-id="{{ $CustomerData->id }}"> Edit </button></td>
+                  <td>{{ $customers->customer_name }}</td>
+                  <td>{{ $customers->contact_number }}</td>
+                  <td>{{ $customers->address }}</td>
+                  <td>{{ number_format($customers->total_credit, 2) }}</td>
+                  <td> <button class="edit-btn btn btn-outline-primary btn-sm" data-id="{{ $customers->id }}"> Edit </button></td>
               </tr>
           @endforeach
       </tbody>
   </table>
+ @endif
 @endsection
 
 <div class="modal fade" id="CustomerModal" tabindex="-1">
@@ -82,9 +89,9 @@
                         </div>
                     </form>
                 </div>
-                
+
             </div>
-          
+
         </div>
     </div>
 </div>
@@ -95,7 +102,7 @@
             e.preventDefault();
             var CustomerId = $(this).data('id');
             var baseUrl = "{{ url('/') }}";
-        
+
             $.ajax({
                 url: '{{ route("edit_customer")}}',  // URL for the edit-customer route
                 type: 'GET',
@@ -105,13 +112,13 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    
+
                     $('#customer_name').val(response.customer_name);
                     $('#contact_number').val(response.contact_number);
                     $('#address').val(response.address);
                     $('#CustomerId').val(CustomerId);
                     $('#CustomerModal').modal('show');
-                    
+
                     // Change the form action to the update route
                     var baseUrl = "{{ route('UpdateCustomer',['id' => 'PLACEHOLDER']) }}";
                     var url = baseUrl.replace('PLACEHOLDER', CustomerId);
@@ -125,29 +132,6 @@
             });
         });
 
-        // $('#SaveCustomerForm').submit(function(e) {
-        //     e.preventDefault();
-        //     var CustomerId = $('#CustomerId').val();
-        //     var formData = new FormData(this);
-        //     $.ajax({
-        //         url: '/UpdateCustomer/' + CustomerId,
-        //         type: 'POST',  // Using POST to update customer data
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         },
-        //         success: function(response) {
-        //             $('#CustomerModal').modal('hide');
-        //             location.reload();
-        //         },
-        //         error: function(response) {
-        //             console.log(response);
-        //             alert('Error occurred while updating data');
-        //         }
-        //     });
-        // });
     });
 </script>
 

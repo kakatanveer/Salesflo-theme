@@ -8,6 +8,7 @@ use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SellController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -47,7 +48,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('ShowItems',[ItemController::class,"ShowItems"])->name("ShowItems");
     Route::get('ShowCredit',[ItemController::class,"ShowCredit"])->name("ShowCredit");
-    Route::get('ShowExpense',[ItemController::class,"ShowExpense"])->name("ShowExpense");
     Route::get('ShowSell',[ItemController::class,"ShowSell"])->name("ShowSell");
 
 
@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ShowCustomers',[CustomerController::class,"ShowCustomers"])->name("ShowCustomers");;
     Route::get('edit-customer', [CustomerController::class, 'edit_customer'])->name('edit_customer');
     Route::post('/SaveCustomer', [CustomerController::class, 'SaveCustomer'])->name('SaveCustomer');
-     Route::post('/UpdateCustomer/{id}', [CustomerController::class, 'UpdateCustomer'])->name('UpdateCustomer');
+    Route::post('/UpdateCustomer/{id}', [CustomerController::class, 'UpdateCustomer'])->name('UpdateCustomer');
 
     // Route::resource('customer' ,[CustomerController::class])->name('customer');
     // Routes for  Credit Component
@@ -80,20 +80,24 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes for Sell component
     Route::resource('sells', SellController::class);
+    Route::get('AddSell',[SellController::class,"AddSell"])->name("AddSell");;
 
-    // Route::get('ShowSell',[CustomerController::class,"ShowSell"])->name("ShowSell");;
-    // Route::get('/sell/edit-sell', [sellController::class, 'edit2'])->name('edit2');
-    // Route::post('/save-sell', [sellController::class, 'Savesell'])->name('Savesell');
-    // Route::post('/Updatesell/{id}', [sellController::class, 'Updatesell'])->name('Updatesell');
+     // routes/web.php
+    Route::get('/generate-stock-report',[ReportController::class,'generateStockReportPdf'])->name('generate-stock-report');
 
 
-     // Routes for Sell component
-     Route::get('Showreport',[CustomerController::class,"Showreport"])->name("Showreport");;
-     Route::get('/report/edit-report', [reportController::class, 'edit2'])->name('edit2');
-     Route::post('/save-report', [reportController::class, 'Savereport'])->name('Savereport');
-     Route::post('/Updatereport/{id}', [reportController::class, 'Updatereport'])->name('Updatereport');
+    Route::get('ShowCredit',[CreditController::class,"ShowCredit"])->name("ShowCredit");
+    Route::get('AddCredit',[CreditController::class,"AddCredit"])->name("AddCredit");
+    Route::post('StoreCredit',[CreditController::class,"StoreCredit"])->name("StoreCredit");
+
+
+
+
+
+
 
 });
+
 
 
 

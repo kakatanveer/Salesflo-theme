@@ -9,6 +9,11 @@ class Customer extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'customer_name', 'contact_number', 'address', 'added_by', 'added_on', 'created_at', 'updated_at',
+        'customer_name', 'contact_number', 'address', 'added_by', 'added_on'
     ];
+
+    public function credits()
+    {
+        return $this->hasMany(Credit::class);
+    }
 }

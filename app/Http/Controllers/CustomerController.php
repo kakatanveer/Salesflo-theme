@@ -12,8 +12,26 @@ class CustomerController extends Controller
 {
     public function ShowCustomers()
     {
-        $CustomerData = Customer::all();
-        return view('ShowCustomers',compact('CustomerData'));
+        // Fetch all customers with their credits and credit items
+        $customers = Customer::with('credits.creditItems')->get();
+
+        // Check if customers are found
+        if ($customers->isEmpty()) {
+            return view('ShowCustomers')->withErrors(['No customers found']);
+        }
+
+        // Calculate the total credit for each customer
+            // Calculate the total credit for each customer
+            foreach ($customers as $customer) {
+                $totalCredit = $customer->credits->sum(function ($credit) {
+                    return $credit->creditItems->sum('total');
+                });
+                $customer->total_credit = $totalCredit - $customer->credits->sum('advance_payment');
+            }
+
+
+        // Pass the data to the view
+        return view('ShowCustomers', compact('customers'));
     }
 
     public function SaveCustomer(Request $request)
@@ -21,7 +39,7 @@ class CustomerController extends Controller
           // Validation
        $validator = Validator::make($request->all(), [
             'customer_name' => 'required|string|max:255|unique:customers',
-            'contact_number' => 'required|integer',
+            'contact_number' => 'required|string',
             'address' => 'required',
         ]);
 
@@ -58,13 +76,13 @@ class CustomerController extends Controller
     {
 
         $customer = Customer::find($request->id);
-        // $res =  new ABC($customer);   
+        // $res =  new ABC($customer);
 
         if ($customer) {
             return response()->json($customer);
         } else {
             return response()->json(['error' => 'Customer not found'], 404);
-        }        
+        }
     }
-    
+
 }

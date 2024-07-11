@@ -18,24 +18,16 @@ class AuthController extends Controller
     //Login
     public function Login(Request $request)
     {
-        
-
         // Validate the request
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-       
-        
          // Check the user credentials
-    
          $user = User::where('name', $request->username)->first();
-       
-
-        
         //  dd(Hash::check($request->password, $user->password));
-      
+
          if ($user && Hash::check($request->password, $user->password)) {
             // Credentials are correct, log the user in
             Auth::login($user, $request->remember);
@@ -44,17 +36,20 @@ class AuthController extends Controller
             return redirect()->intended('dashboard');
         }
 
-      
+
+
+        // Authentication failed, redirect back with error
+        return redirect()->route('login')->withErrors([
+            'wrong_credential' => 'The provided credentials do not match our records.',
+        ])->withInput($request->except('password'));
+
+
 
         // Authentication failed, redirect back with error
         return back()->withErrors([
             'username' => 'The provided credentials do not match our records.',
         ])->withInput($request->except('password'));
 
-        die("=2==");
-        echo $request->username;
-        die("=======");
-       
     }
 
     // Dashboard
